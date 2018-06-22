@@ -5,6 +5,7 @@ import (
 	"github.com/atlassian/go-artifactory/pkg/artifactory"
 	"github.com/hashicorp/terraform/helper/schema"
 	"net/http"
+	"time"
 )
 
 func resourceArtifactoryLocalRepository() *schema.Resource {
@@ -16,6 +17,12 @@ func resourceArtifactoryLocalRepository() *schema.Resource {
 		Exists: resourceLocalRepositoryExists,
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
+		},
+
+		Timeouts: &schema.ResourceTimeout{
+			Create: schema.DefaultTimeout(2 * time.Minute),
+			Update: schema.DefaultTimeout(2 * time.Minute),
+			Delete: schema.DefaultTimeout(2 * time.Minute),
 		},
 
 		Schema: map[string]*schema.Schema{
